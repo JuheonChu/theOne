@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.BoardMapper">
+	<!-- 게시글 작성 -->
+	<insert id="insert">
+		<selectKey resultType="int" keyProperty="ref" order="BEFORE">
+			select
+			ifnull(max(bno),0)+1 from project.simple_board
+		</selectKey>
+		INSERT INTO project.simple_board (title, content,writer, date,
+		ref,step,level, file) VALUES(#{title}, #{content}, #{writer}, now(), #{ref}, 0,0, #{file})
+	</insert>
+
+	<!-- 가장 최근글 bno 구하기 -->
+	<select id="bnoMax" resultType="java.lang.Integer">
+		SELECT MAX(bno) from
+		project.simple_board;
+	</select>
+
+	<select id="selectAll" resultType="com.project.vo.BoardVO">
+		SELECT * FROM
+		project.simple_board
+	</select>
+
+	<select id="selectAll2" resultType="com.project.vo.BoardVO">
+
+		SELECT *
+		FROM ( SELECT *
+		FROM project.simple_board
+		ORDER BY ref DESC,step ASC
+		) T1
+		LIMIT #{size} OFFSET #{offset}
+	</select>
+
+	<!-- 게시글 상세보기 조회 -->
+	<select id="view" resultType="com.project.vo.BoardVO">
+		SELECT * FROM project.simple_board
+		WHERE bno = #{bno}
+	</select>
+
+	<!-- 게시글 조회수 증가 처리 -->
+	<update id="increaseviewcount">
+		UPDATE project.simple_board SET hitcount = hitcount +
+		1 WHERE bno = #{bno}
+	</update>
+
+	<!-- 게시글 수정처리 -->
+	<update id="updateBoardWithFile">
+		UPDATE project.simple_board SET title= #{title},
+		content = #{content},
+		writer=#{writer}, date = now(), file = #{file} WHERE bno = #{bno}
+	</update>
+	
+	<update id="updateBoardWOFile">
+		UPDATE project.simple_board SET title= #{title},
+		content = #{content},
+		writer=#{writer},date=now() WHERE bno = #{bno}
+	</update>
+
+	<!-- 게시글 삭제 -->
+	<delete id="deleteBoard">
+		DELETE FROM project.simple_board WHERE bno = #{bno}
+	</delete>
+
+
+	<!-- 게시판 답글정보조회(부모게시글을조회한다) -->
+	<select id="getBoardReplyInfo" parameterType="com.project.vo.BoardVO"
+		resultType="com.project.vo.BoardVO">
+		SELECT step
+		,ref
+		, level
+		FROM project.simple_board
+		WHERE ref=
+		#{ref}
+
+	</select>
+
+	<!-- 게시판 STEP, level 조정 -->
+	<update id="updateReply" parameterType="com.project.vo.BoardVO">
+		UPDATE project.simple_board
+		SET step = step + 1
+		, date = NOW()
+		WHERE ref = #{ref}
+		AND step > #{step}
+	</update>
+
+	<!-- 게시판 답글달기 -->
+	<insert id="insertBoardReply" parameterType="com.project.vo.BoardVO">
+
+		INSERT
+		INTO project.simple_board
+		(
+		title,content, writer,date,hitcount,ref,step,level
+		)
+		VALUES
+		(
+		#{title}, #{content}, #{writer}, now(), 0,
+		#{ref},
+		#{step} + 1,
+		#{level} + 1
+
+		)
+
+	</insert>
+
+	<select id = "findImgbyWriterID" resultType = "java.lang.String">
+  		select project.member.filename  FROM member inner join project.simple_board ON member.id = simple_board.writer
+  		WHERE writer = #{writer} and bno = #{bno}
+  	</select>
+
+
+
+</mapper>

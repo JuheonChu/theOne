@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+  <mapper namespace="com.project.mapper.SurveyMapper">
+  	<insert id="surveywrite">
+  	INSERT INTO theone.survey (fkey, franchisekey, ordercount, flavor, delivery, service, etc) VALUES (#{fkey},#{franchisekey},'1',#{flavor},#{delivery},#{service},#{etc});
+ 	</insert>
+ 	
+ 	<select id="francount" resultType="int">
+ 	select count(*) from theone.survey where franchisekey = #{franchisekey};
+ 	</select>
+ 	
+ 	<select id="franinfo" resultType="com.project.vo.SurveyVO">
+ 	SELECT * FROM theone.survey where franchisekey=#{franchisekey};
+ 	</select>
+ 	
+ 	<update id="franupdate">
+ 	UPDATE theone.survey SET ordercount=#{ordercount}, flavor = #{flavor}, delivery = #{delivery}, service = #{service}, etc = #{etc} WHERE franchisekey = #{franchisekey};
+ 	</update>
+ 	
+ 	<select id="paikaverage" resultType="com.project.vo.SurveyVO">
+ 		SELECT * FROM theone.survey  WHERE fkey = 1;
+ 	</select>
+ 	
+ 	<select  id="hanshinaverage" resultType="com.project.vo.SurveyVO">
+ 	SELECT * FROM theone.survey  WHERE fkey = 2;
+ 	</select>
+ 	
+ 	<!-- 무슨지점 인지 확인 -->
+	<select id="selectlocation" resultType="String">
+		select location from theone.temp where franchisekey = #{franchisekey};	
+	</select>
+
+ 	<select id="fransalesinfo" resultType="com.project.vo.OrderVO">
+ 		SELECT * FROM theone.order where franchisekey=#{franchisekey};
+ 	</select>
+
+ 	<select id="piakssales" resultType="com.project.vo.OrderVO">
+		SELECT * FROM theone.order where brand = '빽다방';
+ 	</select>
+ 	
+ 	<select id = "hanshinsales" resultType="com.project.vo.OrderVO">
+ 		SELECT * FROM theone.order where brand = '한신포차'
+ 	</select>
+ 	
+ 	<select id="theoneinfo" resultType="com.project.vo.IncomeVO">
+ 		SELECT * FROM theone.income;
+ 	</select>
+ 	
+ 	<select id="frankey" resultType="com.project.vo.TempVO">
+ 		SELECT * FROM theone.temp;
+ 	</select>
+ 	
+ 	
+  </mapper>
+  

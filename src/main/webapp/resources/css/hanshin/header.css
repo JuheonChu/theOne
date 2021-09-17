@@ -1,0 +1,49 @@
+@charset "UTF-8";
+
+li {
+	display: inline-block;
+	margin-right: 40px;
+}
+
+.header {
+	position: fixed;
+	z-index: 2;
+}
+
+.header_content {
+	width: 100%;
+	top:0px;
+	padding-left: 50px;
+	display: flex;
+	position: fixed;
+	z-index: 2;
+	align-items: center;
+	background-color: #000;
+	color: #fff;
+	border-bottom: 1px solid #000;
+}
+
+.header_content ul {
+	padding-left: 50px;
+}
+
+.header_content ul li a{
+	padding-right: 50px;
+	font-size:15px;
+}
+
+.chaticon button {
+	width: 27px;
+	height: 27px;
+}
+
+.chaticon{
+	
+    float: right;
+    position: relative;
+    /* margin-left: 1000px; */
+    bottom: 0px;
+    cursor: pointer;
+	
+	
+}

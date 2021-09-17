@@ -1,0 +1,166 @@
+@charset "UTF-8";
+
+@import url('https://fonts.googleapis.com/css?family=Roboto');
+
+/*body 초기화*/
+body {
+  margin: 0;
+  padding: 0;
+  font-family: "Roboto", serif;
+  display: flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+  align-items: center;
+  overflow-x: hidden;  
+}
+
+@media screen and (max-width: 1110px){
+	.sub_header {
+    	margin-top: 0;
+	}
+}
+
+.sub_bg05 {
+    background: url(http://www.theborn.co.kr/wp-content/uploads/2017/05/sub_header_bg05.jpg) no-repeat center center;
+    background-size: cover;
+}
+.sub_header {
+    width: 150%;
+    height: 250px;
+    display: table;
+    text-align: center;
+}
+
+.sub_header>div {
+    display: table-cell;
+    vertical-align: middle;
+}
+
+.sub_header>div>.company {
+    display: inline-block;
+    width: 215px;
+    background: #b8131f;
+    font-size: 13px;
+    letter-spacing: 5px;
+    padding: 4px 0;
+    color: #fff;
+}
+
+.sub_header>div>.sub_tit {
+    font-size: 47px;
+    line-height: 55px;
+    color: #fff;
+    margin-top: 17px;
+}
+
+.sub_header>div>.sub_tit::after {
+    display: block;
+    content: '';
+    width: 50px;
+    height: 1px;
+    color: #fff;
+    margin: 15px auto;
+    background: #fff;
+}
+
+@media screen and (max-width: 800px){
+.sub_header>div p:last-child {
+    padding: 0 20px;
+    font-size: 15px;
+    line-height: 22px;
+}
+}
+.sub_header>div>.caption {
+    color: #ededed;
+    font-size: 16px;
+    line-height: 24px;
+    word-break: keep-all;
+}
+
+
+.headnavigation{
+	background: url(http://www.theborn.co.kr/wp-content/uploads/2017/05/sub_header_bg05.jpg) no-repeat center center;
+    background-size: cover;
+    width:100%;
+    text-align:center;
+	
+}
+
+h1 {
+  margin: 2em 0 1.5em 0;
+   
+}
+
+nav {
+  top:-19px;
+  font-size: 12px;
+  width: 150%;
+  display: flex;
+  justify-content: center;
+  position: relative;
+  background: linear-gradient(45deg, #00375d, #00375d, #00375d,transparent);
+
+}
+
+ul, li {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+#main-menu > li {
+  float: left;
+  position: relative;
+}
+
+#main-menu > li > a {
+  font-size: inherit;
+  color: rgba(255,255,255,0.85);
+  text-align: center;
+  text-decoration: none;
+  letter-spacing: 0.05em;
+  display: block;
+  padding: 14px 36px;
+  border-right: 1px solid rgba(0,0,0,0.15);
+  text-shadow: 1px 1px 1px rgba(0,0,0,0.2);
+  
+}
+
+#sub-menu {
+  position: absolute;
+  background: #182952;
+  opacity: 0;
+  visibility: hidden;
+  transition: all 0.15s ease-in;
+}
+
+#sub-menu > li {
+	box-sizing: content-box;	
+    font-size: 12px;
+    padding: 20px 17px;
+    border-bottom: 1px solid rgba(0,0,0,0.15);
+    width: 90px;
+
+}
+
+#sub-menu > li >  a {
+  color: rgba(255,255,255,0.6);
+  text-decoration: none;
+}
+
+#main-menu > li:hover #sub-menu {
+  opacity: 1;
+  visibility: visible;
+}
+
+#sub-menu > li >  a:hover {
+ text-decoration: underline;
+}
+
+section {
+  text-align:center;
+  width: 100%;
+  height:300px;
+  background: #dadadf;
+  padding: 2em 12em;
+}

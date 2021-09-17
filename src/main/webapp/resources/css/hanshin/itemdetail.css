@@ -1,0 +1,121 @@
+#container .wrapper-sub {
+    min-height: 500px;
+    padding-top: 149px;
+}
+main {
+    display: block;
+}
+.goods-detail-top {
+    margin-top: 80px;
+}
+
+.section {
+    width: 1180px;
+    margin: 0 auto;
+}
+.goods-detail-top .wrapper-thumbnail-swiper {
+    position: relative;
+    float: left;
+    width: 600px;
+    height: 600px;
+    padding-left: 50px;
+}
+.goods-detail-info {
+    float: right;
+    width: 470px;
+}
+.goods-detail-info .detail-info-top {
+    position: relative;
+    padding-bottom: 17px;
+    border-bottom: 1px solid #222;
+}
+.goods-detail-info .brand {
+    font-size: 17px;
+    font-weight: 700;
+}
+.goods-detail-info .detail-info-top .name {
+    margin: 19px 0 9px;
+    font-size: 27px;
+    font-weight: 700;
+    font-family: 'ssgBan', sans-serif;
+    overflow: hidden;
+    
+}
+.goods-detail-info .price {
+    margin-top: 27px;
+}
+.num {
+    font-family: 'jost', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+.wrap-option {
+    padding: 0 20px 20px 20px;
+    background-color: #fafafa;
+    border-bottom: 1px solid #ddd;
+}
+.price strong {
+    font-size: 23px;
+}
+.goods-detail-info .wrap-spinner {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 20px;
+}
+.goods-detail-info .wrap-btn {
+    margin-top: 30px;
+}
+
+
+.goods-detail-info .wrap-btn .btn:first-of-type {
+    margin-left: 0;
+}
+.goods-detail-info .wrap-btn .btn {
+    margin-left: 10px;
+    height: 55px;
+    font-size: 15px;
+    letter-spacing: 0;
+    width:76px;
+}
+.btn.btn-color2 {
+    border-color: #ff0000;
+    color: #111;
+    background-color: #fff;
+}
+.spinner button {
+    float: left;
+    width: 35px;
+    height: 100%;
+    border: 1px solid #ddd;
+    border-width: 0 1px;
+}
+.spinner input[type="tel"] {
+    float: left;
+    width: 40px;
+    height: 100%;
+    font-size: 15px;
+    text-align: center;
+    font-family: 'jost', sans-serif;
+    font-weight: 700;
+    letter-spacing: 0;
+}
+.btn.btn-color1 {
+    border-color: #000000;
+    color: #000000;
+    background-color: #ff0000;
+}
+.goods-detail-info .float-box {
+    padding: 15px 20px 10px;
+    font-weight: 700;
+    border-bottom: 1px solid #eee;
+}
+.float-box .item {
+    width: 35%;
+}
+.goods-detail-info .float-box .item {
+    padding: 2px 0 6px;
+}
+.float-box {
+    line-height: 1.4;
+}

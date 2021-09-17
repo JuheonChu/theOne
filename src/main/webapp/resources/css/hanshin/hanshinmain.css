@@ -1,0 +1,135 @@
+@charset "UTF-8";
+@import url("reset.css");
+
+
+li {
+	display: inline-block;
+	margin-right: 40px;
+}
+
+ .header {
+	position: fixed;
+	z-index: 2;
+}
+
+.header_content {
+	width: 100%;
+	padding-left: 50px;
+	display: flex;
+	position: fixed;
+	z-index: 2;
+	align-items: center;
+	background-color: #000;
+	color: #fff;
+	border-bottom: 1px solid #000;
+}
+
+.header_content ul {
+	padding-left: 100px;
+}
+
+.header_content ul li a{
+	padding-right: 50px;
+	font-size:15px;
+} 
+
+.slide_sentence {
+	color: #fff
+}
+
+.search button {
+	width: 27px;
+	height: 27px;
+	background: url("../../images/hanshin/ico-search.png");
+} */
+
+.bodyContent {
+	width: 100%;
+	height: 1800px;
+	background: url("../../images/hanshin/bg_main1.jpg");
+}
+
+.bodyContent {
+	padding-top: 0px;
+}
+
+.signatureMenuDetail1 {
+	margin-bottom: 0px;
+	float: left;
+	width: 62%;
+	height: 500px;
+	background: url("../../images/hanshin/bg_menu.jpg");
+}
+
+.signatureMenuImg1 {
+	margin-bottom: 0px;
+	float: left;
+	width: 97%;
+	height: 500px;
+	background: url("../../images/hanshin/main_menu1.jpg");
+	background-size: cover;
+}
+
+.signatureMenuDetail2 {
+	margin-bottom: 0px;
+	float: right;
+	width: 62%;
+	height: 500px;
+	background: url("../../images/hanshin/bg_menu.jpg");
+}
+
+.signatureMenuImg2 {
+	margin-bottom: 0px;
+	float: right;
+	width: 97%;
+	height: 500px;
+	background: url("../../images/hanshin/main_menu2.jpg");
+	background-size: cover;
+}
+
+.signatureMenuDetail3 {
+	float: left;
+	width: 62%;
+	height: 500px;
+	background: url("../../images/hanshin/bg_menu.jpg");
+}
+
+.signatureMenuImg3 {
+	float: left;
+	width: 97%;
+	height: 500px;
+	background: url("../../images/hanshin/main_menu3.jpg");
+	background-size: cover;
+}
+
+.menu1 .signatureMenuDetail1 p, h2, h3 {
+	font-size: 25px;
+	margin: 80px 0px 80px 60px
+}
+
+.menu2 .signatureMenuDetail2 p, h2, h3 {
+	font-size: 25px;
+	margin: 80px 0px 80px 60px
+}
+
+.menu3 .signatureMenuDetail3 p, h2, h3 {
+	font-size: 25px;
+	margin: 80px 0px 80px 60px
+}
+
+
+.main_text_h2, .main_text_p {
+	text-align: left;
+	padding-bottom: 500px;
+}
+
+.main_text_h2 > h2 {
+	font-size: 40px;
+	margin-right: 200px;
+}
+
+.main_text_p > p {
+	font-size: 12px;
+	line-height: 2.3;
+}
+

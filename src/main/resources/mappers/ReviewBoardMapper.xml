@@ -1,0 +1,115 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.ReviewBoardMapper">
+	<!-- 리스트 -->
+	<!-- 게시판 리스트 : 검색 적용 -->
+	<select id="list" resultType="com.project.vo.ReviewBoardVO">
+	<!-- CDATA = mybatis가 처리하지 않고 그대로 넘긴다. -->
+		<!-- <![CDATA[  -->
+		SELECT c.* FROM (
+			SELECT @NO := @NO+1 AS rownum, a.* FROM
+			(SELECT * FROM reviewboard where available=1 <include refid="search"/>
+			ORDER BY ref DESC, step ASC) a, 
+			(SELECT @NO := 0) b) c WHERE c.rownum BETWEEN #{startRow} AND #{endRow}
+		<!-- ]]> -->
+	</select>
+	
+	<!-- 전체 데이타 가져오기 -->
+	<!-- 전체 테이타 가져오기 : 검색 적용 -->
+	<select id="getRow" resultType="java.lang.Integer">
+		SELECT count(*) FROM reviewboard WHERE available=1 <include refid="search"/>
+	</select>
+	
+	<!-- 검색에 사용되는 조건 처리문 -->
+	<sql id="search">
+		<if test="word !=null and word != ''.toString">
+		   and ( 2 = 1
+		   <!-- 2글자 이상인 경우 : String 취급,
+		     한 글자인 경우:char 취급 => toString()를 이용해서 문자열로 만듬-->
+		   <if test="key == 't'.toString()">
+		    <!-- concat(문자열, 문자열) : 2개만 연결 -->
+		       or title like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'c'.toString()">
+		          or content like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'w'.toString()">
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'tc'.toString()">
+		          or title like concat('%', #{word}, '%')
+		          or content like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'tw'.toString()">
+		          or title like concat('%', #{word}, '%')
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'cw'.toString()">
+		          or content like concat('%', #{word}, '%')
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'all'">
+		          or title like concat('%', #{word}, '%')
+		          or content like concat('%', #{word}, '%')
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   )
+	  	</if>
+	</sql>
+	
+	<!-- 글 쓰기 -->
+	<insert id="write">
+		<![CDATA[
+			INSERT INTO reviewboard(no, title, content, writer, writeDate, hit, available, fileName, ref, indent, step) 
+			VALUES ((SELECT IFNULL(MAX(no)+1, 1) FROM reviewboard b), #{title}, #{content}, #{writer}, now(), 0, 1
+			, #{fileName}, (SELECT IFNULL(MAX(no)+1, 1) FROM reviewboard b), 0, 0)
+		]]>
+	</insert>
+	
+	<!-- 게시 글 보기 and 조회수+1 -->
+	<select id="view" resultType="com.project.vo.ReviewBoardVO">
+		<![CDATA[ 
+			SELECT * FROM reviewboard WHERE no = #{no}
+		]]>	
+	</select>
+	
+	<update id="increase">
+		<![CDATA[ 
+			UPDATE reviewboard SET hit = hit+1 WHERE no = #{no}
+		]]>
+	</update>
+	
+	<!-- 업데이트 -->
+	<update id="update">
+		<![CDATA[ 
+			UPDATE reviewboard SET title = #{title}, content = #{content}, writer=#{writer} WHERE no = #{no}
+		]]>	
+	</update>
+	
+	<!-- 삭제 -->
+	<update id="delete">
+		<![CDATA[ 
+			UPDATE reviewboard SET available=0 WHERE no = #{no}
+		]]>	
+	</update>
+	
+	<!-- 댓글 -->
+	
+	<update id="updateStep" parameterType="com.project.vo.ReviewBoardVO">
+		<![CDATA[
+			UPDATE reviewboard SET step = step+1 WHERE ref = #{ref} AND step > #{step} 
+		]]>	
+	</update>
+	
+	<insert id="addComment" parameterType="com.project.vo.ReviewBoardVO">
+		
+		INSERT INTO reviewboard(no, title, content, writer, writeDate, hit, available, fileName, ref, indent, step) 
+		VALUES((SELECT IFNULL(MAX(no)+1, 1) FROM reviewboard b), #{title}, #{content}, #{writer}, now(), 0, 1
+		, #{fileName}, #{ref}, #{indent}+1, #{step}+1)
+		
+	</insert>
+	
+</mapper>

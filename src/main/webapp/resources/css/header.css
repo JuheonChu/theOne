@@ -1,0 +1,153 @@
+@charset "UTF-8";
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+body {
+	font-family: Arial, Helvetica, sans-serif;
+}
+
+.navbar {
+	overflow: hidden;
+	background: white;
+	padding: 23px 0 0px;
+}
+
+.navbar a {
+	float: left;
+	font-size: 11px;
+	color: black;
+	text-align: center;
+	padding: 8px 8px;
+	text-decoration: none;
+	text-transform: uppercase;
+}
+
+.d {
+	float: left;
+	overflow: hidden;
+}
+
+.d .d-btn {
+	font-size: 16px;
+	border: none;
+	outline: none;
+	color: black;
+	padding: 14px 16px;
+	background: inherit;
+	text-transform: uppercase;
+}
+
+.navbar a:hover, .d:hover .d-btn {
+	background: white;
+}
+
+.d-content {
+	top: 80px;
+	display: none;
+	position: absolute;
+	background: #f9f9f9;
+	width: 100%;
+	left: 0;
+	z-index: 10;
+}
+
+.d:hover .d-content {
+	display: block;
+}
+
+.column {
+	float: left;
+	display: -webkit-inline-box;
+	width: 100%;
+	padding: 10px;
+	background: white;
+	height: 150px;
+	border-top: 1px solid #d60514;
+}
+
+.column a {
+	display: block;
+	float: none;
+	color: black;
+	text-align: left;
+}
+
+.column h4 {
+	margin-top: 20px;
+	color: black;
+	padding: 10px;
+}
+
+.column p {
+	margin-top: 20px;
+	color: black;
+	padding: 10px;
+}
+
+.column a:hover {
+	width: auto;
+	height: auto;
+}
+
+.row:after {
+	content: '';
+	display: table;
+	clear: both;
+}
+
+@media ( max-width : 1109px) {
+	.column {
+		width: 100%;
+	}
+}
+
+.notification {
+  background-color: #555;
+  color: white;
+  text-decoration: none;
+  padding: 8px 8px;
+  position: relative;
+  display: inline-block;
+  border-radius: 2px;
+  font-size:11px;
+  
+  
+  height: 26px;
+    position: relative;
+    border-radius: 3px;
+    top: 4px;
+    color: white;
+  
+}
+
+.notification:hover {
+  background: red;
+}
+
+.notification .badge {
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  padding: 5px 10px;
+  border-radius: 50%;
+  background-color: red;
+  color: white;
+  font-size:11px;
+}
+
+
+.login{
+float: right; margin-top: -40px;float: right;
+    margin-top: -40px;
+    font-size: 11px;
+    width: 481px;	
+    display:flex;
+    position:relative;
+    right:-25px;
+    top:0px;
+}

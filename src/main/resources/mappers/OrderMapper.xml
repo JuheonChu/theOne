@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.mapper.OrderMapper">
+	<insert id="addBasket">
+		INSERT INTO theone.order(oid, franchisekey, id, name, address, detailaddress, phone, brand, type, menu, temp, price, count, 
+		sumPrice, image, available, time, pid)
+		VALUES((SELECT IFNULL(MAX(oid)+1, 1) FROM theone.order a), #{franchisekey}, #{id}, #{name}, #{address}, #{detailaddress}, #{phone}, #{brand}, #{type}, #{menu}, #{temp}, 
+		#{price}, #{count}, #{sumPrice}, #{image}, 1, now(), #{pid})
+	</insert>
+	
+	<select id="getBasket" resultType="com.project.vo.OrderVO">
+		SELECT * FROM theone.order WHERE available = 1 AND id = #{id}
+	</select>
+	
+	<delete id="deleteBasket">
+		DELETE FROM theone.order WHERE oid = #{oid}
+	</delete>
+	
+	<update id="buy">
+		UPDATE theone.order SET available = 0 WHERE id = #{id}
+	</update>
+	
+	<insert id="nullBuy">
+		INSERT INTO theone.order(oid, franchisekey, id, name, address, detailaddress, phone, brand, type, menu, temp, price, count, 
+		sumPrice, image, available, time, pid)
+		VALUES((SELECT IFNULL(MAX(oid)+1, 1) FROM theone.order a), #{franchisekey}, #{id}, #{name}, #{address}, #{detailaddress}, #{phone}, #{brand}, #{type}, #{menu}, #{temp}, 
+		#{price}, #{count}, #{sumPrice}, #{image}, 0, now(), #{pid})
+	</insert>
+	
+	<select id = "selectPidList" resultType = "java.lang.Integer">
+		SELECT pid from theone.order WHERE id = #{id}
+	</select>
+	
+	<select id = "selectCountList" resultType = "java.lang.Integer">
+		SELECT count from theone.order WHERE id = #{id}
+	</select>
+	
+	<update id = "updateQuantity">
+		UPDATE theone.inventory WHERE count = count - #{count} WHERE iuid = #{iuid} and fk_pid = #{fk_pid}
+	</update>
+		
+		
+	<select id="getBuyBasket" resultType="com.project.vo.OrderVO">
+      SELECT * FROM theone.order WHERE available = 0 AND id = #{id} ORDER BY oid DESC;
+   </select>
+</mapper>

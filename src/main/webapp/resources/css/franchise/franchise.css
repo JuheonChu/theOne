@@ -1,0 +1,5 @@
+@charset "UTF-8";
+
+.form-group:nth-child(2) label{display: block;}
+.form-group:nth-child(2) input{display: inline-block;  width: 50%} 
+.form-group:nth-child(2) input:first-of-type{margin-right: 3%;} 

@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.DummyMapper">
+	<!-- 게시글 작성 -->
+	<insert id="insertDummy">
+		INSERT INTO franchisepdtapproval(req_orderid, franchisekey, date) VALUES(#{req_orderid}, #{franchisekey}, now())
+	</insert>
+	
+	<select id = "selectdummylist" resultType="com.project.vo.FranchisePdtApprovalVO">
+		SELECT * FROM theone.franchisepdtapproval where franchisekey = #{franchisekey}
+	</select>
+	
+	<select id = "selectdummyFromDummyId" resultType="com.project.vo.FranchisePdtApprovalVO">
+		SELECT * FROM theone.franchisepdtapproval WHERE approveId = #{approveId}
+	</select>
+	
+	<select id = "selectdummyFromDummyRandom" resultType="com.project.vo.FranchisePdtApprovalVO">
+		SELECT * FROM theone.franchisepdtapproval WHERE random = #{random}
+	</select>
+	
+	<select id = "selectPidJoinOnApproval" resultType="java.lang.Integer">
+      SELECT pid FROM  theone.req_order INNER JOIN franchisepdtapproval ON  
+		req_order.req_orderid= franchisepdtapproval.req_orderid where 
+		approveId = #{approveId}
+			   </select>
+   
+   <select id = "selectObjectJoinOnApproval" resultType="com.project.vo.RequestOrderVO">
+      SELECT * FROM  theone.req_order INNER JOIN franchisepdtapproval ON req_order.req_orderid= franchisepdtapproval.req_orderid where 
+      approveId = #{approveId}
+   </select>
+	
+</mapper>

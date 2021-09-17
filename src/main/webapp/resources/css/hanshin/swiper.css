@@ -1,0 +1,52 @@
+@charset "UTF-8";
+@import url("reset.css");
+
+body {
+	height: 100%;
+}
+
+body {
+	font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+	font-size: 14px;
+	color: #000;
+	margin: 0;
+	padding: 0;
+}
+
+.swiper-container {
+	width: 100%;
+	height: 900px;
+}
+
+.swiper-slide {
+	text-align: center;
+	font-size: 18px;
+	
+	/* Center slide text vertically */
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+	-webkit-box-pack: center;
+	-ms-flex-pack: center;
+	-webkit-justify-content: center;
+	justify-content: center;
+	-webkit-box-align: center;
+	-ms-flex-align: center;
+	-webkit-align-items: center;
+	align-items: center;
+}
+
+#slide1 {
+	background: url("../../images/hanshin/slide/main01.jpg");
+	background-size: cover;
+}
+
+#slide2 {
+	background: url("../../images/hanshin/slide/main_visual2.jpg");
+}
+
+#slide3 {
+	background: url("../../images/hanshin/slide/main03.jpg");
+	background-size: cover;
+}

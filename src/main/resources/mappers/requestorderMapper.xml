@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.mapper.requestorderMapper">
+
+	<insert id = "insertRequestOrder">
+		INSERT INTO theone.req_order (rid,pid,reqCount, status, available) VALUES (#{rid}, #{pid}, #{reqCount}, 'waiting', 1)
+	</insert>
+	
+	<select id = "selectOrders" resultType = "com.project.vo.RequestOrderVO">
+		SELECT *
+		FROM theone.req_order
+		LIMIT #{limit} OFFSET #{offset}
+	</select>
+	
+	<select id = "selectOrdersFranchisekey" resultType = "com.project.vo.RequestOrderVO">
+		SELECT *
+		FROM theone.req_order WHERE rid = #{rid}
+	</select>
+	
+	<!-- productId(pid)로 productVO 를 찾는것 -->
+	<select id = "selectproductBypid" resultType="com.project.vo.ProductVO">
+	 SELECT product.* FROM  req_order INNER JOIN product ON product.idx = req_order.pid  where pid = #{pid};
+	</select>
+	
+	
+	<select id = "selecttempByrid" resultType ="com.project.vo.TempVO">
+		SELECT theone.temp.* FROM  req_order INNER JOIN temp ON temp.franchisekey= req_order.rid
+		where rid = #{rid}
+	</select>
+	
+	
+	<update id = "updatestatus">
+		UPDATE theone.req_order SET status = 'delivered', available = 2 WHERE req_orderid = #{req_orderid}
+	</update>
+	
+	<select id = "selectpidbyorerid" resultType="java.lang.Integer">
+		select pid from theone.req_order where req_orderid = #{req_orderid}
+	</select>
+	
+	
+	
+	
+</mapper>

@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.inventoryMapper">
+	<!-- 게시글 작성 -->
+	<insert id="insertInventory">
+		INSERT INTO inventory (iuid, fk_pid, count, available) VALUES(#{iuid},
+		#{fk_pid}, 100, 0)
+		ON DUPLICATE KEY UPDATE 
+        iuid = CONCAT(VALUES(iuid),fk_pid);
+	</insert>
+	
+	<update id = "updateInventory">
+		UPDATE inventory SET count = count + #{count}, available = #{available} WHERE iuid = #{iuid} and fk_pid = #{fk_pid}
+	</update>
+
+	<update id="sellProduct">
+		UPDATE theone.inventory SET count = count-#{count} WHERE fk_pid = #{pid} AND iuid=#{iuid}
+	</update>
+	
+	<select id="getSoldOutInt" resultType="java.lang.Integer">
+      SELECT count FROM theone.inventory WHERE fk_pid = #{fk_pid} and iuid = #{iuid}
+   </select>
+
+</mapper>

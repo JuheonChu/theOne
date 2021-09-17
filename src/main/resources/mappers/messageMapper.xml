@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.messageMapper">
+
+	<insert id="addMessageWOContractAlarm">
+		INSERT INTO message (receiver,fromId, topic,
+		messagecontent, regist_date)
+		VALUES (#{receiver}, #{fromId}, 일반,
+		#{messagecontent}, #{regist_date})
+	</insert>
+
+	<insert id="addMessage">
+		INSERT INTO message (receiver,fromId, topic,
+		messagecontent, regist_date,
+		contractno) VALUES (#{receiver},
+		#{fromId}, #{topic},
+		#{messagecontent}, #{regist_date}, #{contractno})
+	</insert>
+
+	<select id="myInbox" resultType="com.project.vo.Message">
+		select * from Message
+		where
+		receiver = #{receiver}
+	</select>
+
+	<select id="myOutbox" resultType="com.project.vo.Message">
+		select * from Message
+		where
+		fromId = #{fromId}
+	</select>
+
+	<select id="totalReceiveMessages"
+		resultType="com.project.vo.Message">
+
+	</select>
+
+	<update id="updateState">
+		update message set regist_date = now() where idx =
+		#{idx}
+	</update>
+
+	<update id="updateTopic">
+		update message set topic = #{topic} WHERE contractno
+		= #{contractno} and
+		messagecontent like concat('%', #{messagecontent},
+		'%')
+	</update>
+
+	<update id="updateDeliveryStatus">
+		update message set topic = #{topic} WHERE topic =
+		'배송중' and receiver =
+		#{receiver}
+	</update>
+
+	<select id="countMessages" resultType="java.lang.Integer">
+		SELECT count(*) from message WHERE receiver = #{receiver}
+	</select>
+
+	<select id="mustread" resultType="java.lang.Integer">
+		SELECT count(*) from message where receiver = #{receiver} and (topic = '필수'
+		OR topic = '승인완료' OR topic = '배송조회');
+	</select>
+
+
+
+
+
+
+</mapper>

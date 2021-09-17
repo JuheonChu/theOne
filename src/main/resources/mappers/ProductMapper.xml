@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.mapper.ProductMapper">
+
+	<select id = "selectproductlist" resultType= "com.project.vo.ProductVO">
+		SELECT * FROM product
+	</select>
+
+	<select id="coffeeList" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE type='coffee';
+	</select>
+	
+	<select id="beverageList" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE type='beverage';
+	</select>
+	
+	<select id="dessertList" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE type='dessert';
+	</select>
+	
+	<select id="drinkList" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE type='drink';
+	</select>
+	
+	<select id = "coffeemenulist" resultType= "java.lang.String">
+		SELECT type from product WHERE menu = #{menu}
+	</select>
+	
+	<select id = "beveragemenulist" resultType= "java.lang.String">
+		SELECT type from product WHERE menu = #{menu}
+	</select>
+	
+	<select id = "dessertmenulist" resultType= "java.lang.String">
+		SELECT type from product WHERE menu = #{menu}
+	</select>
+	
+	<select id = "drinkmenulist" resultType= "java.lang.String">
+		SELECT type from product WHERE menu = #{menu}
+	</select>
+	
+	<select id = "selectType" resultType= "java.lang.String">
+		SELECT type from product WHERE menu = #{menu}
+	</select>
+	
+	<select id = "coffee" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE menu IN (SELECT menu FROM product
+  		WHERE menu=#{menu});
+	</select>
+	
+	<select id = "beverage" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE menu IN (SELECT menu FROM product
+  		WHERE type='beverage');
+	</select>
+	
+	<select id = "dessert" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE menu IN (SELECT menu FROM product
+  		WHERE type='dessert');
+	</select>
+	
+	<select id = "drink" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE menu IN (SELECT menu FROM product
+  		WHERE type='drink');
+	</select>
+	
+	<select id = "getObjectbyMenuandTemp" resultType = "com.project.vo.ProductVO">
+		SELECT * FROM product where menu = #{menu} and temp = #{temp}
+	</select>
+	
+	<select id = "getObjectbyMenuandTempHanshin" resultType = "com.project.vo.ProductVO">
+		SELECT * FROM product where menu = #{menu} and temp is null
+	</select>
+	
+	<select id = "selectProductIdx">
+		SELECT idx from product WHERE menu = #{menu} and temp = #{temp}
+	</select>
+	
+	<select id = "selectPdt" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product where idx = #{idx}
+	</select>
+	
+	<select id = "selectPdtList" resultType="com.project.vo.TempVO">
+		SELECT c.* FROM (
+			SELECT @idx := @idx+1 AS rownum, a.* FROM
+			(SELECT * FROM product <include refid="search"/>
+			ORDER BY cid DESC) a,
+			(SELECT @CID := 0) b) c WHERE c.rownum BETWEEN #{startRow} AND #{endRow}
+	</select>
+	
+	<select id="getRow" resultType="java.lang.Integer">
+		SELECT count(*) FROM product <include refid="search"/>
+	</select>
+	
+	<!-- 검색에 사용되는 조건 처리문 -->
+	<sql id="search">
+		<if test="word !=null and word != ''.toString">
+		   WHERE ( 2 = 1  
+		   <!-- 2글자 이상인 경우 : String 취급,
+		     한 글자인 경우:char 취급 => toString()를 이용해서 문자열로 만듬-->
+		   <if test="key == 'type'.toString()">
+		    <!-- concat(문자열, 문자열) : 2개만 연결 -->
+		       or type like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'menu'.toString()">
+		          or menu like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'temp'.toString()">
+		          or temp like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'detailExplain'.toString()">
+		          or detailExplain like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'all'">
+		          or brand like concat('%', #{word}, '%')
+		          or location like concat('%', #{word}, '%')
+		          or name like concat('%', #{word}, '%')
+		          or address like concat('%', #{word}, '%')
+		          or detailaddress like concat('%', #{word}, '%')
+		   </if>
+		   )
+	  	</if>
+	</sql>
+	
+	<insert id = "insertProduct">
+		INSERT INTO theone.product (brand, type, menu,temp,detailExplain,price, salaryprice,image) 
+		VALUES (#{brand}, #{type}, #{menu}, #{temp}, #{detailExplain}, #{price}, #{salaryprice}, #{image}) 
+	</insert>
+	
+	<select id="getItemDetail" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE idx = #{idx}
+	</select>
+	
+	<!-- =======================한신포차============================= -->
+	
+	<select id="hanshinMenu" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE brand='한신포차'
+	</select>
+	
+	<select id = "getHanshinObjectbyMenuandTemp" resultType = "com.project.vo.ProductVO">
+		SELECT * FROM product where menu = #{menu}
+	</select>
+	
+	
+	
+</mapper>

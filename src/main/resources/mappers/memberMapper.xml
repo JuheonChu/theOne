@@ -1,0 +1,147 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.MemberMapper">
+
+   <insert id="insertMember">
+      INSERT INTO member (idx, id,password,email,phone,postcode,
+      address,detailaddress,name,brand,tier,
+      filename, rest, rest_id)
+      VALUES((SELECT IFNULL(MAX(idx)+1, 1) FROM member b), #{id}, #{password}, #{email},
+      #{phone}, #{postcode},#{address}, #{detailaddress}, #{name},
+      'none', 'customer', #{filename}, #{rest}, #{rest_id})
+   </insert>
+
+   <insert id="insertMemberNoFile">
+      INSERT INTO member (idx, id,password,email,phone,postcode,
+      address,detailaddress,name, brand, tier, rest, rest_id)
+      VALUES((SELECT IFNULL(MAX(idx)+1, 1) FROM member b), #{id}, #{password}, #{email},
+      #{phone}, #{postcode},#{address}, #{detailaddress}, #{name},
+      'none', 'customer', #{rest}, #{rest_id})
+   </insert>
+
+   <select id="selectAllMember"
+      resultType="com.project.vo.MemberVO">
+      SELECT * FROM member
+   </select>
+
+   <select id="selectAllMember2"
+      resultType="com.project.vo.MemberVO">
+      SELECT * FROM member order by idx desc limit #{size} offset #{offset}
+   </select>
+
+   <select id="chkID" resultType="com.project.vo.MemberVO">
+      SELECT id FROM member WHERE idx=#{idx}
+   </select>
+
+   <select id="chkPw" resultType="com.project.vo.MemberVO">
+      SELECT password FROM member WHERE idx = #{idx}
+   </select>
+
+   <select id="loginChk" resultType="java.lang.String">
+      SELECT name FROM member WHERE id = #{id} AND password = #{password}
+   </select>
+
+   <select id="loginMember" parameterType="com.project.vo.MemberVO"
+      resultType="com.project.vo.MemberVO">
+      SELECT * FROM member WHERE id = #{id} and password = #{password}
+   </select>
+
+   <select id="viewMember" resultType="com.project.vo.MemberVO">
+      SELECT * FROM theone.member where id = #{id} and password = #{password}
+   </select>
+
+   <update id="modifyMember">
+      UPDATE member SET id = #{id}, password = #{password}, name = #{name}, phone
+      = #{phone}, address = #{address}, email = #{email}
+      WHERE idx = #{idx}
+   </update>
+
+   <delete id="deleteMember">
+      DELETE from member where idx=#{idx}
+   </delete>
+
+   <select id="findImgfile" parameterType="java.lang.String"
+      resultType="java.lang.String">
+      SELECT filename FROM member where id = #{id}
+   </select>
+
+   <select id="findImgs" resultType="java.lang.String">
+      select member.filename FROM member inner join project.simple_board ON
+      member.id = simple_board.writer
+      WHERE writer = #{writer}
+   </select>
+
+   <select id="findIdByIdx" resultType="java.lang.String">
+      select id from member where idx = #{idx}
+   </select>
+
+   <!-- id가있는지에대한여부 -->
+   <select id="idCheck" resultType="int">
+      SELECT COUNT(*) FROM member WHERE id = #{id}
+   </select>
+
+   <!-- 그 id가뭔지 리턴 -->
+   <select id="CheckId" resultType="java.lang.String">
+      SELECT id FROM theone.member WHERE id = #{id}
+   </select>
+
+   <!-- 비밀번호가뭔지에대한 여부 -->
+   <select id="CheckPw" resultType="java.lang.String">
+      SELECT password FROM theone.member WHERE password = #{password} and id =
+      #{id}
+   </select>
+
+   <insert id="insertfranchise">
+      INSERT INTO member (id,password,email,phone,postcode,
+      address,detailaddress,name, brand, tier, filename, url, franchisekey,
+      selectmenu) 
+      VALUES(#{id}, #{password}, #{email}, #{phone},
+      #{postcode},#{address}, #{detailaddress}, #{name}, #{brand}, #{tier},
+      #{filename}, #{url},
+      #{franchisekey}, #{selectmenu})
+   </insert>
+
+   <insert id="insertfranchiseWOfile">
+      INSERT INTO member (idx, id,password,email,phone,postcode,
+      address,detailaddress,name, url) 
+      VALUES((SELECT IFNULL(MAX(no)+1, 1) FROM reviewboard b), #{id}, #{password}, #{email},
+      #{phone}, #{postcode},#{address}, #{detailaddress}, #{name}, #{url})
+   </insert>
+
+   <select id="getNamesCount" resultType="java.lang.Integer">
+      SELECT count(name) from member where name = #{name};
+   </select>
+
+   <select id="getIdsCount" resultType="java.lang.Integer">
+      SELECT count(name) from member where name = #{name};
+   </select>
+   
+   <select id = "selectIDWithFranchiseKey" resultType="java.lang.String">
+      SELECT id from theone.member where franchisekey = #{franchisekey}
+   </select>
+   
+   <select id="checkMember" resultType="com.project.vo.MemberVO">
+      SELECT * FROM member WHERE idx = #{idx}
+   </select>
+   
+   <select id="selectMember" resultType="com.project.vo.MemberVO">
+      SELECT * FROM member WHERE id = #{id}
+   </select>
+   
+   <update id="randompw" >
+      UPDATE member SET password = #{password} WHERE id = #{id};
+   </update>
+
+   <select id="findid" resultType="com.project.vo.MemberVO">
+   SELECT * FROM theone.member WHERE name = #{name} and email = #{email} and phone = #{phone}
+   </select>
+   
+   <update id="infoupdate" >
+      UPDATE member SET password = #{password}, email = #{email}, phone = #{phone}, postcode = #{postcode}, address = #{address}, detailaddress = #{detailaddress}, name = #{name}, filename = #{filename} WHERE (id = #{id});   
+   </update>
+   
+
+</mapper>

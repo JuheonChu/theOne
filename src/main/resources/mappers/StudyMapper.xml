@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+  
+<mapper namespace="com.project.mapper.StudyMapper">
+	<!-- 리스트 -->
+	<!-- 게시판 리스트 : 검색 적용 -->
+	<select id="list" resultType="com.project.vo.StudyVO">
+	<!-- CDATA = mybatis가 처리하지 않고 그대로 넘긴다. -->
+		<!-- <![CDATA[  -->
+		SELECT c.* FROM (
+			SELECT @BNO := @BNO+1 AS rownum, a.* FROM
+			(SELECT * FROM study where category=2 <include refid="search"/>
+			ORDER BY bno DESC) a, 
+			(SELECT @BNO := 0) b) c WHERE c.rownum BETWEEN #{startRow} AND #{endRow}
+		<!-- ]]> -->
+	</select>
+	
+	<!-- 전체 데이타 가져오기 -->
+	<!-- 전체 테이타 가져오기 : 검색 적용 -->
+	<select id="getRow" resultType="java.lang.Integer">
+		SELECT count(*) FROM study where category=2 <include refid="search"/>
+	</select>
+	
+	<!-- 검색에 사용되는 조건 처리문 -->
+	<sql id="search">
+		<if test="word !=null and word != ''.toString">
+		   and ( 2 = 1
+		   <!-- 2글자 이상인 경우 : String 취급,
+		     한 글자인 경우:char 취급 => toString()를 이용해서 문자열로 만듬-->
+		   <if test="key == 't'.toString()">
+		    <!-- concat(문자열, 문자열) : 2개만 연결 -->
+		       or title like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'c'.toString()">
+		          or content like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'w'.toString()">
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'tc'.toString()">
+		          or title like concat('%', #{word}, '%')
+		          or content like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'tw'.toString()">
+		          or title like concat('%', #{word}, '%')
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'cw'.toString()">
+		          or content like concat('%', #{word}, '%')
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   <if test="key == 'all'">
+		          or title like concat('%', #{word}, '%')
+		          or content like concat('%', #{word}, '%')
+		          or writer like concat('%', #{word}, '%')
+		   </if>
+		   )
+	  	</if>
+	</sql>
+	
+	<!-- 글 쓰기 -->
+	<insert id="Vwrite">
+	INSERT INTO study (category, title, content, url) VALUES (#{category}, #{title}, #{content}, #{url});
+	</insert>
+	
+	<!-- 	내용수정 데이터 가져오기 -->
+	<select id="UpdateList" resultType="com.project.vo.StudyVO">
+		SELECT * FROM study where title=#{title};
+	</select>
+
+	<!-- 내용 수정 -->
+	<update id="Vupdate">
+	UPDATE study SET title = #{title}, content = #{content}, url = #{url}, date = now() WHERE (title = #{menu});
+	</update>
+
+	<!-- 내용 삭제 -->
+	<update id="Vdelete">
+	DELETE FROM study WHERE (title = #{menu});
+	</update>
+	
+	<select id="fcontent" resultType="com.project.vo.StudyVO">
+	SELECT * FROM study where title = #{menu};
+	</select>
+	
+	<select id="flist" resultType="com.project.vo.StudyVO">
+	<!-- CDATA = mybatis가 처리하지 않고 그대로 넘긴다. -->
+		<!-- <![CDATA[  -->
+		SELECT c.* FROM (
+			SELECT @BNO := @BNO+1 AS rownum, a.* FROM
+			(SELECT * FROM study where category=1 <include refid="search"/>
+			ORDER BY bno DESC) a, 
+			(SELECT @BNO := 0) b) c WHERE c.rownum BETWEEN #{startRow} AND #{endRow}
+		<!-- ]]> -->
+	</select>
+	
+</mapper>

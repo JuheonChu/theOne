@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans https://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd">
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	
+	<!-- DataSource : DB와의 연결을 담당합니다.-->
+	<bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+      <property name="driverClassName" value="net.sf.log4jdbc.sql.jdbcapi.DriverSpy"></property>
+      <!-- <property name="url" value="jdbc:mysql://localhost:3306/study?characterEncoding=UTF-8&amp;
+      serverTimezone=UTC"></property> -->
+      <property name="url" value="jdbc:log4jdbc:mysql://127.0.0.1:3306/theone?characterEncoding=UTF-8&amp;
+      serverTimezone=UTC"></property>
+      <property name="username" value="root"></property>
+      <property name="password" value="tiger"></property>
+   </bean>
+	
+	<!-- SqlSessionFactory 객체: DB와의 연결과 SQL 실행에 대한 모든것을 가진 가장 중요한객체-->
+	<bean id = "sqlSessionFactory" class = "org.mybatis.spring.SqlSessionFactoryBean">
+		<property name = "dataSource" ref = "dataSource"></property>
+		<!-- mybatis설정이 위치하는곳 -->
+		<property name = "configLocation" value = "classpath:/mybatis-config.xml"></property>	
+		<!-- mapper가위치하는곳 -->
+		<property name = "mapperLocations" value = "classpath:mappers/**/*Mapper.xml"></property>
+	</bean>
+	
+	<!-- SqlSession (SqlSessionTemplate 객체) -->
+	<bean id = "sqlSession" class = "org.mybatis.spring.SqlSessionTemplate" destroy-method = "clearCache">
+		<constructor-arg name = "sqlSessionFactory" ref = "sqlSessionFactory"></constructor-arg>
+	</bean>
+	
+	<bean name="multipartResolver"
+		class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<property name="defaultEncoding" value="utf-8" />
+		<property name="maxUploadSize" value="10485760" /> <!-- 10메가까지 -->
+	</bean>
+	
+	
+    <!-- gmail -->
+    <bean id="mailSender" class="org.springframework.mail.javamail.JavaMailSenderImpl"> 
+	    <property name="host" value="smtp.gmail.com" /> 
+	    <property name="port" value="587" /> 
+	    <property name="username" value="omjcws@gmail.com" /> 
+	    <property name="password" value="omjcws1531!" />
+	    <property name="javaMailProperties"> 
+		    <props>
+		    	<prop key="mail.transport.protocol">smtp</prop>
+           		<prop key="mail.smtp.auth">true</prop>
+           		<prop key="mail.smtp.starttls.enable">true</prop>
+            	<prop key="mail.debug">true</prop>
+		    </props>
+		</property>
+	</bean>
+
+	
+	<bean class="org.springframework.web.servlet.view.BeanNameViewResolver">
+              <property name="order" value="0"/>
+    </bean>
+	
+	
+	
+	<bean id = "crawlingdao" class = "com.project.dao.CrawlingDAOImpl"/>
+	<bean id = "studydao" class = "com.project.dao.StudyDAOImpl"/>
+	<bean id = "surveydao" class = "com.project.dao.SurveyDAOImpl"/>
+	<bean id= "franchisepdtapprovaldao" class = "com.project.dao.FranchisePdtApprovalDAOImpl"/>
+	<bean id = "inventorydao" class = "com.project.dao.InventoryDAOImpl"/>
+	<bean id = "incomedao" class = "com.project.dao.IncomeDAOImpl"/>
+	<bean id = "requestorderdao" class = "com.project.dao.RequestOrderDAOImpl"/>
+	<bean id = "productdao" class = "com.project.dao.ProductDAOImpl"/>
+	<bean id = "tempdao" class = "com.project.dao.TempDAOImpl"/>
+	<bean id = "messageDao" class = "com.project.dao.MessageDAOImpl"/>
+	<bean id = "reviewboarddao" class = "com.project.dao.ReviewBoardDAOImpl"/>
+	<bean id = "memberdao" class = "com.project.dao.MemberDAOImpl"/>
+	<bean id = "boarddao" class = "com.project.dao.BoardDAOImpl"/>
+	<bean id = "orderDAO" class = "com.project.dao.OrderDAOImpl"/>
+	<bean id = "mapDAO" class = "com.project.dao.MapServiceDAOImpl"/>
+	 <bean id="emailSender" class="com.project.service.pwfindServiceImpl"/>
+	
+
+	
+	<context:component-scan base-package="com.project.service" />
+	<context:component-scan base-package="spring.board.email"/>
+</beans>

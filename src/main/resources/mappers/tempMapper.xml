@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.tempMapper.temporary">
+
+	<!-- businesslauncher 테이블부분시작 -->
+	<insert id="signupMember">
+		INSERT INTO temp (startup_field,brand,location,name, phone, email,consent,
+		status, member_index, mapservice)
+		VALUES(#{startup_field},#{brand},#{location},#{name}, #{phone},
+		#{email},#{consent}, #{status}, #{member_index}, #{mapservice})
+	</insert>
+
+	<select id="selectwaitingpeople" resultType="com.project.vo.TempVO">
+		SELECT * FROM temp
+	</select>
+
+	<select id="selectdabang" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE brand = '빽다방'
+	</select>
+
+	<select id="selecthanshin" resultType="com.project.vo.ProductVO">
+		SELECT * FROM product WHERE brand = '한신포차'
+	</select>
+
+	<select id="findBrand" parameterType="java.lang.Integer"
+		resultType="java.lang.String">
+		select brand from temp where contractno= #{contractno};
+	</select>
+
+	<select id="findMyBusinessInfo" resultType="com.project.vo.TempVO">
+		SELECT * from temp WHERE contractno = #{contractno}
+	</select>
+	
+	<select id="findMyBusinessInfoByFranchisekey" resultType="com.project.vo.TempVO">
+		SELECT * from temp WHERE franchisekey = #{franchisekey}
+	</select>
+
+	<select id="findMyBusinessInfoWithBrandAndLocation"
+		resultType="com.project.vo.TempVO">
+		SELECT * from temp WHERE brand = #{brand} and location = #{location}
+	</select>
+
+	<update id="updateConsult">
+		UPDATE theone.temp set membershipfee = #{membershipfee},
+		membershipmaintenance = #{membershipmaintenance}, selectmenu =
+		#{selectmenu}, address = #{address}, detailaddress = #{detailaddress},
+		postcode = #{postcode}, latitude = #{latitude}, longitude = #{longitude}, mapservicefee = #{mapservicefee}
+		WHERE contractno = #{contractno}
+	</update>
+
+	<update id="updateStatus">
+		UPDATE theone.temp set status = 'approved' WHERE contractno = #{contractno}
+	</update>
+
+	<select id="approvedpeople" resultType="com.project.vo.TempVO">
+		SELECT * FROM temp WHERE status = #{status}
+	</select>
+
+	<select id="findContractno" resultType = "java.lang.Integer">
+		SELECT contractno
+		FROM temp
+		INNER JOIN member
+		ON member.idx = temp.member_index
+		WHERE member_index = #{member_index} and temp.franchisekey = #{franchisekey};
+	</select>
+	<!-- 여기까지가 businesslauncher table것 -->
+
+
+	<!-- 여기부터가 headquartermanager것 -->
+
+
+	<update id="updateFranchise">
+		UPDATE theone.temp SET franchisekey =
+		#{franchisekey}, url = #{url} WHERE contractno = #{contractno}
+	</update>
+
+	<select id="selectFranchiseList" resultType="com.project.vo.TempVO">
+		SELECT c.* FROM (
+		SELECT @CONTRACTNO := @CONTRACTNO+1 AS rownum, a.* FROM
+		(SELECT * FROM temp WHERE status = 'approved'
+		<include refid="search" />
+		ORDER BY contractno DESC) a,
+		(SELECT @CONTRACTNO := 0) b) c WHERE c.rownum BETWEEN #{startRow} AND
+		#{endRow}
+	</select>
+
+	<select id="getRow" resultType="java.lang.Integer">
+		SELECT count(*) FROM temp
+		<include refid="search" />
+	</select>
+
+	<!-- 검색에 사용되는 조건 처리문 -->
+	<sql id="search">
+		<if test="word !=null and word != ''.toString">
+			WHERE ( 2 = 1
+			<!-- 2글자 이상인 경우 : String 취급, 한 글자인 경우:char 취급 => toString()를 이용해서 문자열로 
+				만듬 -->
+			<if test="key == 'brand'.toString()">
+				<!-- concat(문자열, 문자열) : 2개만 연결 -->
+				or brand like concat('%', #{word}, '%')
+			</if>
+			<if test="key == 'location'.toString()">
+				or location like concat('%', #{word}, '%')
+			</if>
+			<if test="key == 'name'.toString()">
+				or name like concat('%', #{word}, '%')
+			</if>
+			<if test="key == 'address'.toString()">
+				or address like concat('%', #{word}, '%')
+				or detailaddress like concat('%', #{word}, '%')
+			</if>
+			<if test="key == 'all'">
+				or brand like concat('%', #{word}, '%')
+				or location like concat('%', #{word}, '%')
+				or name like concat('%', #{word}, '%')
+				or address like concat('%', #{word}, '%')
+				or detailaddress like concat('%', #{word}, '%')
+			</if>
+			)
+		</if>
+	</sql>
+
+
+	<!-- End of the headquartermanager -->
+</mapper>

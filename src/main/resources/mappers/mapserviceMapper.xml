@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.project.mapper.mapserviceMapper">
+	<select id = "selectlocationList" resultType = "com.project.vo.MapServiceVO">
+		SELECT * FROM theone.mapservice
+	</select>
+</mapper>
