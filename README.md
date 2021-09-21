@@ -1,4 +1,4 @@
-# theOne
+# theOne (MVC-based Spring, JSP, Javascript, Java, MySQL(Database), HTML, CSS)
 Business Launch program
 
 Branch: Headquarter, franchise companies-{coffee shop, pub)
