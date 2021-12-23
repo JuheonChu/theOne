@@ -17,5 +17,5 @@ WEB PAGE & Main Functionalities
       2. Daily Consumer: order food, add food to the Cart, chat to a staff in the franchise (Spring Stomp)
                     
                     
-****** Some copyrights and designs belong to https://www.theborn.co.kr, Paikdabang (the born Korea's franchise company (cafe), and
-       Hanshin(theborn Korea's franchise company (pub)) 
+**Some copyrights and designs belong to [The Born Korea](https://www.theborn.co.kr), Paikdabang (the born Korea's franchise cafe, and
+       Hanshin(theborn Korea's franchise pub)**
